@@ -7,7 +7,14 @@ import (
 func main() {
 	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
 		rw.Header().Add("Access-Control-Allow-Origin", "*")
-		rw.Write([]byte(r.RemoteAddr))
+		var remoteAddress string
+		forwardedFor := rw.Header().Get("X-Forwarded-For")
+		if forwardedFor != "" {
+			remoteAddress = forwardedFor
+		} else {
+			remoteAddress = r.RemoteAddr
+		}
+		rw.Write([]byte(remoteAddress))
 	})
 	http.ListenAndServe(":80", nil)
 }
