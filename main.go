@@ -16,5 +16,5 @@ func main() {
 		}
 		rw.Write([]byte(remoteAddress))
 	})
-	http.ListenAndServe(":8081", nil)
+	http.ListenAndServe(":80", nil)
 }
